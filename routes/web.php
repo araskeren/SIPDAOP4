@@ -16,7 +16,8 @@ use App\Stasiun;
 
 Auth::routes();
 Route::get('/dashboard','DashboardController@cekUser');
-Route::get('/','DashboardController@cekUser');
+Route::get('/{val}','DashboardController@index');
+Route::get('/','DashboardController@index');
 
 //User
 Route::get('/user','UserController@lihat');
@@ -144,6 +145,9 @@ Route::post('/laporan/komulatif','KomulatifController@viewRekapKomulatif');
 //route ka daop
 Route::get('/laporan/kadaop','KomulatifController@viewRekapKaDaop');
 Route::post('/laporan/kadaop','KomulatifController@viewRekapKaDaop');
+Route::get('/laporan/chart',function(){
+	return view('chart');
+});
 //route download
 Route::post('/laporan/export/harian','ExcelController@exportLaporanHarian');
 Route::post('/laporan/export/komulatif','ExcelController@exportLaporanKomulatif');

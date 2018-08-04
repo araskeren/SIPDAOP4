@@ -217,7 +217,7 @@ class KomulatifController extends Controller
   public function getDataKomulatifNonAngkutan($tanggal,$tahun){
     $komulatif_nonangkutan=new NonAngkutan;
     $data_komulatif_nonangkutan=$komulatif_nonangkutan->ambilSemuaDataNow($tanggal,$tahun);
-    dd($data_komulatif_nonangkutan);
+    //dd($data_komulatif_nonangkutan);
     return $data_komulatif_nonangkutan;
   }
   public function getDataKomulatifBHP($tanggal){
