@@ -11,14 +11,14 @@ use App\PendapatanLawang;
 use App\PendapatanPA;
 use App\PendapatanUUK;
 use Carbon\Carbon;
-
-class DashboardController extends Controller
+class ChartController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    public function index($val){
+
+    public function komulatif2($val){
       $sekarang=Carbon::now();
       $tanggal_max=Carbon::now();
       $tanggal_min=$sekarang->subDays(7);
@@ -39,30 +39,31 @@ class DashboardController extends Controller
       $barang=Barang::select('created_at','jenis','volume','pendapatan')->whereBetween('created_at',[$tanggal_min->toDateString(),$tanggal_max->toDateString()])->get();
       $nonangkutan=$this->getNonAngkutan($tanggal_min->toDateString(),$tanggal_max->toDateString());
 
-      return view('index',compact('penumpang','barang','nonangkutan'));
+      return view('chart_komulatif',compact('penumpang','barang','nonangkutan'));
     }
-    public function index2(){
+    public function komulatif(){
       $sekarang=Carbon::now();
       $tanggal_max=Carbon::now();
       $tanggal_min=$sekarang->subDays(7);
 
-      $penumpang=Penumpang::select('created_at','jenis','volume','pendapatan')->whereBetween('created_at',[$tanggal_min->toDateString(),$tanggal_max->toDateString()])->get();
+      $penumpang=Penumpang::select('id','created_at','jenis','volume','pendapatan')->whereBetween('created_at',[$tanggal_min->toDateString(),$tanggal_max->toDateString()])->get();
       $barang=Barang::select('created_at','jenis','volume','pendapatan')->whereBetween('created_at',[$tanggal_min->toDateString(),$tanggal_max->toDateString()])->get();
       $nonangkutan=$this->getNonAngkutan($tanggal_min->toDateString(),$tanggal_max->toDateString());
+      //$penumpang=$this->konversi($penumpang);
 
-      return view('index',compact('penumpang','barang','nonangkutan'));
+      return view('chart_komulatif',compact('penumpang','barang','nonangkutan'));
     }
-    public function cekUser(){
-      if(Auth::check()){
-        return view('login_user');
+    private function konversi($penumpang){
+      foreach ($penumpang as $i){
+        $temp_penumpang[]=[
+          'created_at'=>Carbon::parse($i['created_at'])->toDateString(),
+          'jenis'=>$i->jenis,
+          'volume'=>$i->volume,
+          'pendapatan'=>$i->pendapatan,
+        ];
       }
+      return $temp_penumpang;
     }
-    public function getRegresiLinier($jenis){
-      $penumpang= new Penumpang;
-      $data=$penumpang->where('created_at','!=','2018-05-23')->where('jenis',$jenis)->get();
-      return $data;
-    }
-
     private function getNonAngkutan($min,$max){
       $ambarawa = PendapatanAmbarawa::select('created_at','total')->whereBetween('created_at',[$min,$max])->get();
       $lawang = PendapatanLawang::select('created_at','total')->whereBetween('created_at',[$min,$max])->get();

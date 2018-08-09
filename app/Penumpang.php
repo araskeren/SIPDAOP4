@@ -27,7 +27,7 @@ class Penumpang extends Model
     }
     public function edit(Request $request,$tanggal,$stasiun_id){
       $data_sekarang=$this->getDataDetail($tanggal,$stasiun_id);
-      
+
       $this->where('id','=',$data_sekarang[0]->id)->update([
         'volume'=>$request->Volume_Eksekutif,
         'pendapatan'=>$request->Pendapatan_Eksekutif,

@@ -16,8 +16,11 @@ use App\Stasiun;
 
 Auth::routes();
 Route::get('/dashboard','DashboardController@cekUser');
-Route::get('/{val}','DashboardController@index');
-Route::get('/','DashboardController@index');
+Route::get('/{val}','DashboardController@cekUser');
+Route::get('/','DashboardController@index2');
+
+Route::get('/chart/komulatif','ChartController@komulatif');
+Route::get('/chart/komulatif/{val}','ChartController@komulatif2');
 
 //User
 Route::get('/user','UserController@lihat');

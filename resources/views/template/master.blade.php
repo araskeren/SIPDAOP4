@@ -224,6 +224,17 @@ desired effect
             <li><a href="/nonangkutan/lihat/komulatif"><i class="fa fa-file-text"></i>Non Angkutan</a></li>
           </ul>
         </li>
+        <li class="treeview">
+          <a href=""><i class="fa fa-bar-chart"></i> <span>Chart</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/chart/single"><i class="fa fa-area-chart"></i>Single</a></li>
+            <li><a href="/chart/komulatif"><i class="fa fa-line-chart"></i>Komulatif</a></li>
+          </ul>
+        </li>
         @if(Auth::user()->level==1||Auth::user()->level==9||Auth::user()->level==10)
 		<li class="treeview">
           <a href=""><i class="fa fa-book"></i> <span>Laporan</span>
